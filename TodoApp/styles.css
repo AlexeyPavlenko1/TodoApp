@@ -1,0 +1,228 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: linear-gradient(120deg, #570c7abe 0%, #800761 100%);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+header {
+  font-size: 7vh;
+  text-align: center;
+  color: rgb(255, 136, 0);
+}
+
+.wrap {
+  margin-left: 20%;
+  max-width: 40%;
+}
+
+.wrap form {
+  border-bottom: 1px solid black;
+  background-color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: max-content;
+}
+
+a {
+  color: white;
+}
+
+#toggle-all {
+  border-right: 1px solid gray;
+  border-bottom: 1px solid black;
+}
+#toggle-all i {
+  color: #555;
+  padding-bottom: 10px;
+}
+#toggle-all:hover {
+  background: white;
+  cursor: pointer;
+}
+
+.todo-input,
+button {
+  padding: 0.5rem;
+  font-size: 2rem;
+  border: none;
+  outline: none;
+  background: white;
+}
+/* .todo-input {
+  flex: 1;
+} */
+.todo-input:invalid {
+  border: 2px solid red;
+}
+.todo-input:focus {
+  border: none;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+div.wrap form button.save {
+  cursor: pointer;
+  color: white;
+  background-color: green;
+}
+div.wrap form button.save:hover {
+  cursor: pointer;
+  color: green;
+  background-color: white;
+  border-bottom: 1px solid black;
+}
+.wrap form button {
+  color: #ff6f47;
+  transition: all 0.3s ease;
+}
+form button:hover {
+  background: #ff6f47;
+  color: white;
+}
+.todo-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.todo-list {
+  min-width: 60%;
+  list-style: none;
+}
+
+.todo {
+  background: white;
+  font-size: 1.5rem;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 1s ease;
+  border-bottom: 1px solid;
+  overflow: auto;
+}
+
+.todo-item {
+  flex: 1;
+  display: block;
+  padding: 0rem 0.5rem;
+}
+
+input[type='checkbox'] {
+  height: 5vh;
+  width: 5vh;
+  color: black;
+  background-color: rgb(0, 0, 0);
+  border-radius: 10px;
+  border: 4px solid #555;
+}
+input[type='checkbox']:checked {
+  background: rgb(170, 170, 170);
+}
+
+.delete-btn {
+  background: black;
+  color: red;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  visibility: hidden;
+}
+
+div[status='completed'] {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/*  Needed for filters */
+.hide {
+  /* You can play with the seconds to change the "animation" */
+  animation: hide 0.5s ease 0s 1 normal forwards;
+  transform-origin: center;
+}
+.show {
+  /* You can play with the seconds to change the "animation" */
+  animation: show 0.5s ease 0s 1 normal forwards;
+  transform-origin: center;
+}
+
+@keyframes hide {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+    width: 0;
+    height: 0;
+    margin: 0;
+  }
+}
+@keyframes show {
+  0% {
+    transform: scale(0);
+    width: 0;
+    height: 0;
+    margin: 0;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 20px 20px 0;
+}
+.filter {
+  margin: 20px 20px 20px 20px;
+  text-decoration: underline;
+  display: inline;
+}
+.filter:hover {
+  cursor: pointer;
+}
+.filters ul:hover {
+  background-color: white;
+  color: black;
+}
+.filters ul {
+  list-style-type: none;
+}
+.filters ul li {
+  display: inline;
+}
+
+.bottom-wrap {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+}
+
+#sorting {
+  list-style-type: none;
+}
+#sorting li {
+  display: inline;
+}
+ul#sorting li:hover,
+.filters ul li:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+#clear-completed:hover {
+  cursor: pointer;
+  text-decoration: none;
+}

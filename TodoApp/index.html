@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo list</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/e402fcfa0d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Todo List</h1>
+    </header>
+
+    <div class="wrap">
+      <div style="display: flex">
+        <button id="toggle-all"><i class="fa-solid fa-sort-down"></i></button>
+        <form>
+          <label for="toggle-all"></label>
+          <input
+            class="todo-input"
+            type="text"
+            placeholder="What needs to be done?"
+            minlength="3"
+            maxlength="200"
+            autofocus
+          />
+          <button class="todo-button" type="submit">
+            <i class="fas fa-plus-square"></i>
+          </button>
+        </form>
+      </div>
+
+      <div class="todo-container">
+        <ul class="todo-list"></ul>
+      </div>
+
+      <div class="filters">
+        <ul>
+          <li><span class="filter" data-filter="all">ALL</span></li>
+          <li><span class="filter" data-filter="active">ACTIVE</span></li>
+          <li><span class="filter" data-filter="completed">COMPLETED</span></li>
+        </ul>
+      </div>
+
+      <div class="bottom-wrap">
+        <span id="counter"></span>
+        <ul id="sorting">
+          <li>Asc</li>
+          /
+          <li>Desc</li>
+        </ul>
+        <span id="clear-completed">clear completed</span>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
