@@ -1,28 +1,30 @@
-const todoInput = document.querySelector('.todo-input');
-const todoButton = document.querySelector('.todo-button');
-const todoList = document.querySelector('.todo-list');
-const counterElement = document.querySelector('#counter');
-const filterOption = document.querySelector('.filter-todo');
-const toggleAllBtn = document.getElementById('toggle-all');
-const filters = [...document.querySelectorAll('.filter')];
-const sorts = [...document.querySelectorAll('ul#sorting li')];
-const clearCompleted = document.getElementById('clear-completed');
+'use strict';
 
-let currentFilter = 'all';
-let counterValue;
+var todoInput = document.querySelector('.todo-input');
+var todoButton = document.querySelector('.todo-button');
+var todoList = document.querySelector('.todo-list');
+var counterElement = document.querySelector('#counter');
+var filterOption = document.querySelector('.filter-todo');
+var toggleAllBtn = document.getElementById('toggle-all');
+var filters = [].concat(_toConsumableArray(document.querySelectorAll('.filter')));
+var sorts = [].concat(_toConsumableArray(document.querySelectorAll('ul#sorting li')));
+var clearCompleted = document.getElementById('clear-completed');
+
+var currentFilter = 'all';
+var counterValue = void 0;
 
 //Event Listeners
 document.addEventListener('DOMContentLoaded', renderTodos);
 
 todoButton.addEventListener('click', addTodo);
 
-filters.forEach(filter => {
+filters.forEach(function (filter) {
   filter.addEventListener('click', function () {
     filterTodos(filter.getAttribute('data-filter'));
   });
 });
 
-sorts.forEach(sort => {
+sorts.forEach(function (sort) {
   sort.addEventListener('click', function () {
     sortTodos(sort.innerText.toLowerCase() === 'desc');
   });
@@ -35,36 +37,51 @@ toggleAllBtn.addEventListener('click', function (e) {
 
 clearCompleted.addEventListener('click', function () {
   todoList.innerHTML = '';
-  setLocalTodos(getLocalTodos().filter(todo => todo.status !== 'completed'));
+  setLocalTodos(
+    getLocalTodos().filter(function (todo) {
+      return todo.status !== 'completed';
+    })
+  );
   renderTodos();
 });
 
 //Functions
 function toggleAll() {
-  const todos = getLocalTodos();
-  const allComplete = todos.every(todo => todo.status === 'completed');
+  var todos = getLocalTodos();
+  var allComplete = todos.every(function (todo) {
+    return todo.status === 'completed';
+  });
 
   if (allComplete) {
-    todos.forEach(todo => (todo.status = 'active'));
+    todos.forEach(function (todo) {
+      return (todo.status = 'active');
+    });
   } else {
-    todos.forEach(todo => (todo.status = 'completed'));
+    todos.forEach(function (todo) {
+      todo.status = 'completed';
+    });
   }
   setLocalTodos(todos);
-  renderedTodos = todoList.querySelectorAll('.todo');
-  renderedTodos.forEach(element => element.remove());
+  var renderedTodos = todoList.querySelectorAll('.todo');
+  renderedTodos.forEach(function (element) {
+    element.remove();
+  });
   renderTodos();
 }
 
-function updateCounter(value = counterValue) {
-  counterElement.innerText = `${value} ${currentFilter === 'all' ? 'total' : currentFilter}`;
+function updateCounter() {
+  var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : counterValue;
+  counterElement.innerText = value + ' ' + (currentFilter === 'all' ? 'total' : currentFilter);
 }
 
 function sortTodos(desc) {
-  todoList.querySelectorAll('.todo').forEach(childNode => childNode.remove());
-  const todos = getLocalTodos();
-  todos.sort((first, second) => {
-    const descByText = second.text.toLowerCase().localeCompare(first.text.toLowerCase());
-    const descByTime = second.createdAt - first.createdAt;
+  todoList.querySelectorAll('.todo').forEach(function (childNode) {
+    childNode.remove();
+  });
+  var todos = getLocalTodos();
+  todos.sort(function (first, second) {
+    var descByText = second.text.toLowerCase().localeCompare(first.text.toLowerCase());
+    var descByTime = second.createdAt - first.createdAt;
     return desc ? (descByText ? descByText : descByTime) : -descByText ? -descByText : -descByTime;
   });
   setLocalTodos(todos);
@@ -73,23 +90,21 @@ function sortTodos(desc) {
 
 function addTodo(e) {
   e.preventDefault();
-  const todoText = todoInput.value.trim();
+  var todoText = todoInput.value.trim();
   if (validateTodoText(todoText)) {
-    const createdAt = new Date().getTime();
-    const todoDiv = createTodoDiv(createdAt, 'active');
-    //checkbox
+    var createdAt = new Date().getTime();
+    var todoDiv = createTodoDiv(createdAt, 'active');
     createCheckBox(todoDiv);
-    const newTodo = createNewTodoElement(todoText, todoDiv);
+    var newTodo = createNewTodoElement(todoText, todoDiv);
     saveNewTodo(todoText, createdAt);
     newTodo.addEventListener('dblclick', edit(newTodo, todoDiv));
     createDeleteButton(todoDiv);
-    //attach final Todo
     todoList.appendChild(todoDiv);
   }
 }
 
 function createNewTodoElement(todoText, todoDiv) {
-  const newTodo = document.createElement('li');
+  var newTodo = document.createElement('li');
   newTodo.classList.add('todo-item');
   newTodo.innerText = todoText;
   todoInput.value = '';
@@ -98,19 +113,19 @@ function createNewTodoElement(todoText, todoDiv) {
 }
 
 function saveNewTodo(todoText, createdAt) {
-  const todos = getLocalTodos();
-  const newTodo = { text: todoText, status: 'active', createdAt: createdAt };
+  var todos = getLocalTodos();
+  var newTodo = { text: todoText, status: 'active', createdAt: createdAt };
   todos.push(newTodo);
   localStorage.setItem('todos', JSON.stringify(todos));
   updateCounter(todos.length);
 }
 
 function renderTodos() {
-  const todos = getLocalTodos();
+  var todos = getLocalTodos();
   todos.forEach(function (todo) {
-    const todoDiv = createTodoDiv(todo.createdAt, todo.status);
+    var todoDiv = createTodoDiv(todo.createdAt, todo.status);
     createCheckBox(todoDiv, todo.status);
-    const newTodo = createNewTodoElement(todo.text, todoDiv);
+    var newTodo = createNewTodoElement(todo.text, todoDiv);
     newTodo.addEventListener('dblclick', edit(newTodo, todoDiv));
     createDeleteButton(todoDiv);
     todoList.appendChild(todoDiv);
@@ -120,29 +135,29 @@ function renderTodos() {
 }
 
 function hideClearBtn(todos) {
-  const areAllActive = todos
-    ? todos.every(todo => todo.status === 'active')
-    : !document.querySelectorAll('[status="completed"]').length;
+  var areAllActive = todos
+    ? todos.every(function (todo) {
+        return todo.status === 'active';
+      })
+    : document.querySelectorAll('.todo[status=completed]').length === 0;
   if (areAllActive) {
     clearCompleted.style.visibility = 'hidden';
+  } else {
+    clearCompleted.style.visibility = 'visible';
   }
 }
 
 function edit(newTodo, todoDiv) {
   return function () {
     todoDiv.style.display = 'none';
-    const form = document.createElement('form');
-    form.innerHTML = ` <input
-        placeholder="What needs to be done?"
-        minlength="3"
-        maxlength="200"
-      />
-
-      <button class="save" type="submit">
-      <i class="fa-solid fa-square-check"></i>
-      </button>`;
-    const input = form.querySelector('input');
-    const button = form.querySelector('button');
+    var form = document.createElement('form');
+    form.innerHTML =
+      ' <input placeholder="What needs to be done?" minlength="3" maxlength="200"/>' +
+      '<button class="save" type="submit"> ' +
+      '<i class="fa-solid fa-square-check"></i>' +
+      '</button>';
+    var input = form.querySelector('input');
+    var button = form.querySelector('button');
     input.setAttribute('type', 'text');
     input.classList.add('todo', 'todo-item');
     input.style.display = 'block';
@@ -154,7 +169,7 @@ function edit(newTodo, todoDiv) {
     input.addEventListener('blur', function () {
       form.requestSubmit();
     });
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
       updateTodo(newTodo, form, todoDiv);
     });
@@ -162,8 +177,8 @@ function edit(newTodo, todoDiv) {
 }
 
 function updateTodo(newTodo, form, todoDiv) {
-  const input = form.querySelector('input');
-  const todoText = input.value.trim();
+  var input = form.querySelector('input');
+  var todoText = input.value.trim();
   if (validateTodoText(todoText)) {
     newTodo.innerText = input.value;
     updateProp(todoDiv, 'text', input.value);
@@ -177,8 +192,8 @@ function validateTodoText(todoText) {
 }
 
 function getLocalTodos() {
-  const todosJson = localStorage.getItem('todos');
-  return todosJson ? [...JSON.parse(localStorage.getItem('todos'))] : [];
+  var todosJson = localStorage.getItem('todos');
+  return todosJson ? [].concat(_toConsumableArray(JSON.parse(localStorage.getItem('todos')))) : [];
 }
 
 function setLocalTodos(todos) {
@@ -186,15 +201,17 @@ function setLocalTodos(todos) {
 }
 
 function createTodoDiv(createdAt, status) {
-  const todoDiv = document.createElement('div');
+  var todoDiv = document.createElement('div');
   todoDiv.classList.add('todo', 'show');
   todoDiv.setAttribute('createdAt', createdAt);
   todoDiv.setAttribute('status', status);
   return todoDiv;
 }
 
-function createCheckBox(todoDiv, todoStatus = 'active') {
-  const checkBox = document.createElement('input');
+function createCheckBox(todoDiv) {
+  var todoStatus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'active';
+
+  var checkBox = document.createElement('input');
   checkBox.setAttribute('type', 'checkbox');
   checkBox.checked = todoStatus === 'completed';
 
@@ -206,7 +223,6 @@ function createCheckBox(todoDiv, todoStatus = 'active') {
 }
 
 function toggleSingle(todoDiv, checkBox) {
-  const todo = todoDiv.querySelector('.todo-item');
   if (checkBox.checked) {
     todoDiv.setAttribute('status', 'completed');
     updateProp(todoDiv, 'status', 'completed');
@@ -219,22 +235,24 @@ function toggleSingle(todoDiv, checkBox) {
 }
 
 function updateProp(todoDiv, prop, newvalue) {
-  const localTodos = getLocalTodos();
-  const index = localTodos.findIndex(todo => todo.createdAt === Number(todoDiv.getAttribute('createdAt')));
+  var localTodos = getLocalTodos();
+  var index = localTodos.findIndex(function (todo) {
+    return todo.createdAt === Number(todoDiv.getAttribute('createdAt'));
+  });
   localTodos[index][prop] = newvalue;
   setLocalTodos(localTodos);
   filterTodos();
 }
 
 function createDeleteButton(todoDiv) {
-  const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+  var deleteButton = document.createElement('button');
+  deleteButton.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   deleteButton.classList.add('delete-btn');
   todoDiv.appendChild(deleteButton);
-  todoDiv.addEventListener('mouseover', () => {
+  todoDiv.addEventListener('mouseover', function () {
     deleteButton.style.visibility = 'visible';
   });
-  todoDiv.addEventListener('mouseleave', () => {
+  todoDiv.addEventListener('mouseleave', function () {
     deleteButton.style.visibility = 'hidden';
   });
   deleteButton.addEventListener('click', function () {
@@ -243,31 +261,46 @@ function createDeleteButton(todoDiv) {
 }
 
 function deleteTodo(todoDiv) {
-  const createdAt = Number(todoDiv.getAttribute('createdAt'));
-  const todos = getLocalTodos().filter(todo => todo.createdAt !== createdAt);
+  var createdAt = Number(todoDiv.getAttribute('createdAt'));
+  var todos = getLocalTodos().filter(function (todo) {
+    return todo.createdAt !== createdAt;
+  });
   setLocalTodos(todos);
   todoDiv.remove();
   updateCounter(todoList.getElementsByClassName('show').length);
 }
 
-function filterTodos(filter = currentFilter) {
-  let itemsToHide = document.querySelectorAll(` .todo:not([status='${filter}'])`);
-  let itemsToShow = document.querySelectorAll(`.todo[status='${filter}']`);
+function filterTodos() {
+  var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : currentFilter;
+
+  var itemsToHide = document.querySelectorAll(" .todo:not([status='" + filter + "'])");
+  var itemsToShow = document.querySelectorAll(".todo[status='" + filter + "']");
   if (filter === 'all') {
     itemsToHide = [];
     itemsToShow = document.querySelectorAll('.todo-list [status]');
   }
 
-  itemsToHide.forEach(el => {
+  itemsToHide.forEach(function (el) {
     el.classList.add('hide');
     el.classList.remove('show');
   });
 
-  itemsToShow.forEach(el => {
+  itemsToShow.forEach(function (el) {
     el.classList.remove('hide');
     el.classList.add('show');
   });
 
   currentFilter = filter;
   updateCounter(itemsToShow.length);
+}
+
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
 }
