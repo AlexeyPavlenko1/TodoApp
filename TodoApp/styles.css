@@ -21,13 +21,16 @@ header {
   max-width: 40%;
 }
 
-.wrap form {
+form {
+  width: 100%;
+}
+#todo-input {
+  box-sizing: border-box;
   border-bottom: 1px solid black;
   background-color: white;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: max-content;
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
 }
 
 a {
@@ -37,10 +40,14 @@ a {
 #toggle-all {
   border-right: 1px solid gray;
   border-bottom: 1px solid black;
+  width: 5vh;
+  color: gray;
 }
-#toggle-all i {
+#toggle-all span {
   color: #555;
-  padding-bottom: 10px;
+  display: block;
+  content: '❯';
+  transform: rotate(90deg);
 }
 #toggle-all:hover {
   background: white;
@@ -55,10 +62,7 @@ button {
   outline: none;
   background: white;
 }
-/* .todo-input {
-  flex: 1;
-} */
-.todo-input:invalid {
+input:invalid {
   border: 2px solid red;
 }
 .todo-input:focus {
@@ -83,7 +87,6 @@ div.wrap form button.save:hover {
 }
 .wrap form button {
   color: #ff6f47;
-  transition: all 0.3s ease;
 }
 form button:hover {
   background: #ff6f47;
@@ -106,7 +109,6 @@ form button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 1s ease;
   border-bottom: 1px solid;
   overflow: auto;
 }
@@ -115,6 +117,8 @@ form button:hover {
   flex: 1;
   display: block;
   padding: 0rem 0.5rem;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 input[type='checkbox'] {
@@ -136,47 +140,35 @@ input[type='checkbox']:checked {
   padding: 1rem;
   cursor: pointer;
   font-size: 1rem;
-  visibility: hidden;
+}
+.delete-btn i::before {
+  content: '×';
+  font-size: 1.5rem;
 }
 
-div[status='completed'] {
+.todo[status='completed'] .todo-item {
   text-decoration: line-through;
   opacity: 0.5;
 }
-
-/*  Needed for filters */
+form.todo-edit {
+  width: 100%;
+  font-size: '1.5rem';
+}
+form.todo-edit input {
+  padding: 0;
+  width: 100%;
+  display: block;
+  line-height: 7vh;
+}
 .hide {
-  /* You can play with the seconds to change the "animation" */
-  animation: hide 0.5s ease 0s 1 normal forwards;
-  transform-origin: center;
+  display: none;
 }
 .show {
-  /* You can play with the seconds to change the "animation" */
-  animation: show 0.5s ease 0s 1 normal forwards;
-  transform-origin: center;
+  display: flex;
 }
 
-@keyframes hide {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-    width: 0;
-    height: 0;
-    margin: 0;
-  }
-}
-@keyframes show {
-  0% {
-    transform: scale(0);
-    width: 0;
-    height: 0;
-    margin: 0;
-  }
-  100% {
-    transform: scale(1);
-  }
+.invisible {
+  visibility: hidden;
 }
 
 .filters {
@@ -185,19 +177,22 @@ div[status='completed'] {
   margin: 20px 20px 20px 0;
 }
 .filter {
-  margin: 20px 20px 20px 20px;
+  padding: 0 20px 0 20px;
   text-decoration: underline;
   display: inline;
 }
-.filter:hover {
+.filters ul:hover {
   cursor: pointer;
 }
-.filters ul:hover {
-  background-color: white;
-  color: black;
+.active-filter {
+  background-color: black;
+  color: white;
 }
 .filters ul {
+  background-color: white;
+  color: black;
   list-style-type: none;
+  font-weight: bold;
 }
 .filters ul li {
   display: inline;

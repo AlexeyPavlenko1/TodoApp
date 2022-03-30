@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo list</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/e402fcfa0d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -15,20 +13,18 @@
 
     <div class="wrap">
       <div style="display: flex">
-        <button id="toggle-all"><i class="fa-solid fa-sort-down"></i></button>
+        <button id="toggle-all">
+          <span>❯</span>
+        </button>
         <form>
-          <label for="toggle-all"></label>
           <input
-            class="todo-input"
+            id="todo-input"
             type="text"
             placeholder="What needs to be done?"
             minlength="3"
             maxlength="200"
             autofocus
           />
-          <button class="todo-button" type="submit">
-            <i class="fas fa-plus-square"></i>
-          </button>
         </form>
       </div>
 
@@ -38,9 +34,9 @@
 
       <div class="filters">
         <ul>
-          <li><span class="filter" data-filter="all">ALL</span></li>
-          <li><span class="filter" data-filter="active">ACTIVE</span></li>
-          <li><span class="filter" data-filter="completed">COMPLETED</span></li>
+          <li class="filter" data-filter="all">ALL</span></li>
+          <li class="filter" data-filter="active">ACTIVE</span></li>
+          <li class="filter" data-filter="completed">COMPLETED</span></li>
         </ul>
       </div>
 
@@ -55,6 +51,6 @@
       </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
   </body>
 </html>
