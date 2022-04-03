@@ -183,6 +183,7 @@ form.todo-edit input {
 }
 .filters ul:hover {
   cursor: pointer;
+  text-decoration: none;
 }
 .active-filter {
   background-color: black;
@@ -209,6 +210,7 @@ form.todo-edit input {
 }
 #sorting li {
   display: inline;
+  margin-left: 0.3em;
 }
 ul#sorting li:hover,
 .filters ul li:hover {
